@@ -5,10 +5,9 @@ import combatants.Combatant;
 /**
  * STUN:
  * - Affected entity cannot act for the current turn and the next turn
- * - Duration: 2 turns (including the turn it was applied)
- * Fixed timing: Stun persists for the remainder of current turn + next full turn.
+ * - Duration: 2 turns total (including the turn it was applied)
+ * - We decrement ONLY at turn end
  */
-
 public class StunEffect implements StatusEffect {
     private int turnsRemaining = 2;
     private boolean applied = false;
@@ -23,26 +22,24 @@ public class StunEffect implements StatusEffect {
     }
 
     public void onTurnStart(Combatant target) {
-        if (!applied) return;
-
-        // Don't decrement on the first turn (the turn it was applied)
-        // We only decrement at the start of subsequent turns
-        if (turnsRemaining == 2) {
-            turnsRemaining--;  // Mark that we've processed the current turn
-        } else {
-            turnsRemaining--;
-            if (turnsRemaining <= 0) {
-                target.setStunned(false);
-            }
-        }
+        // Do nothing
+        // Stun should already block action through target.isStunned()
     }
 
     public void onTurnEnd(Combatant target) {
+        if (!applied) return;
+
         turnsRemaining--;
+
+        if (turnsRemaining <= 0) {
+            target.setStunned(false);
+            applied = false;
+        }
     }
 
     public void onExpire(Combatant target) {
         target.setStunned(false);
+        applied = false;
     }
 
     public boolean isExpired() {

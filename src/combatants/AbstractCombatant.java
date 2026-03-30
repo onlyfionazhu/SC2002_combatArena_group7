@@ -96,29 +96,18 @@ public abstract class AbstractCombatant implements Combatant {
         }
     }
 
-
     public void tickTurnEffects() {
-        Iterator<StatusEffect> it = statusEffects.iterator();
-        while (it.hasNext()) {
-            StatusEffect e = it.next();
-            e.onTurnStart(this);
-            if (e.isExpired()) {
-                e.onExpire(this);
-                it.remove();
-            }
+        for (StatusEffect effect : new ArrayList<>(statusEffects)) {
+            effect.onTurnStart(this);
         }
+        removeExpiredEffects();
     }
 
     public void tickRoundEndEffects() {
-        Iterator<StatusEffect> it = statusEffects.iterator();
-        while (it.hasNext()) {
-            StatusEffect e = it.next();
-            e.onTurnEnd(this);
-            if (e.isExpired()) {
-                e.onExpire(this);
-                it.remove();
-            }
+        for (StatusEffect effect : new ArrayList<>(statusEffects)) {
+            effect.onTurnEnd(this);
         }
+        removeExpiredEffects();
     }
 
     public void setStunned(boolean stunned) {
