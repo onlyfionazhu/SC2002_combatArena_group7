@@ -1,24 +1,39 @@
 package Main;
 
-import combatant.Combatant;
-import combatant.Goblin;
-import combatant.Warrior;
-import combatant.Wizard;
-import combatant.Wolf;
+import engine.BattleEngine;
+import engine.Level;
+import ui.GameCLI;
+import ui.GameSession;
 
+/**
+ * Entry point for the Turn-Based Combat Arena.
+ *
+ * Compilation (from src/ folder):
+ *   Mac/Linux: find . -name "*.java" | xargs javac -d ../out
+ *   Windows:   dir /s /B *.java > sources.txt && javac -d ../out @sources.txt
+ *
+ * Execution: java -cp ../out Main
+ */
 public class Main {
     public static void main(String[] args) {
-        Warrior warrior = new Warrior();
-        Wizard wizard = new Wizard();
-        Goblin goblin = new Goblin();
-        Wolf wolf = new Wolf();
+        GameCLI cli = new GameCLI();
+        GameSession session = null;
 
-        warrior.useShieldBash(goblin);
-        wizard.useArcaneBlast(new Combatant[]{goblin, wolf});
+        while (true) {
+            if (session == null) {
+                session = cli.showLoadingScreen();
+            }
 
-        System.out.println("Warrior HP: " + warrior.getHp());
-        System.out.println("Wizard HP: " + wizard.getHp());
-        System.out.println("Goblin HP: " + goblin.getHp());
-        System.out.println("Wolf HP: " + wolf.getHp());
+            Level level = new Level(session.difficulty);
+            BattleEngine engine = new BattleEngine(session.player, level, cli);
+            engine.run();
+
+            int choice = cli.promptPostGame();
+            if (choice == 1) {
+                session = cli.rebuildSession(session);
+            } else {
+                session = null;
+            }
+        }
     }
 }
