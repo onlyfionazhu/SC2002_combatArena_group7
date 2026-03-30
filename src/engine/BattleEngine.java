@@ -3,15 +3,12 @@ package engine;
 import actions.Action;
 import actions.ActionResult;
 import actions.BasicAttack;
-import actions.ItemAction;
-import actions.SpecialSkillAction;
 import combatants.Combatant;
 import combatants.Enemy;
 import combatants.Player;
-import items.PowerStone;
-import ui.BattleUI;
 import java.util.ArrayList;
 import java.util.List;
+import ui.BattleUI;
 
 // BATTLE ENGINE - MAIN GAME LOOP
 public class BattleEngine {
@@ -88,7 +85,6 @@ public class BattleEngine {
             //4d. Execute turn
             if (current instanceof Player) {
                 doPlayerTurn((Player) current);
-                ((Player) current).decrementCooldown();
             } else if (current instanceof Enemy) {
                 doEnemyTurn((Enemy) current);
             }
@@ -97,8 +93,10 @@ public class BattleEngine {
             if (checkEnd()) break;
         }
 
-        //5. Tick round-end effects on player (SmokeBomb)
-        player.tickRoundEndEffects(); 
+        //5. Tick round-end effects on all living combatants (SmokeBomb, etc.)
+        for (Combatant c : combatants) {
+            if (c.isAlive()) c.tickRoundEndEffects();
+        }
 
         //6. End-of-round summary
         if (!over) { 
@@ -109,6 +107,8 @@ public class BattleEngine {
 
     // HANDLING TURNS
     private void doPlayerTurn(Player player) {
+        player.decrementCooldown();
+
         List<Combatant> enemies = getAliveEnemies();
         Action action = ui.promptAction(player, enemies);
 
