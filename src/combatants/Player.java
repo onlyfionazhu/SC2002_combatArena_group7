@@ -33,13 +33,4 @@ public abstract class Player extends AbstractCombatant {
     public abstract String getSpecialSkillName();
     public abstract String getSpecialSkillDescription();
 
-    protected List<StatusEffect> effects = new ArrayList<>();
-
-    public List<StatusEffect> getEffects() {
-        return effects;
-    }
-
-    public void addEffect(StatusEffect effect) {
-        effects.add(effect);
-    }
 }
