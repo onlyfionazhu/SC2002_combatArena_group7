@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * GameCLI — sole boundary class. All System.in/out lives here.
+ * GameCLI - sole boundary class. All System.in/out lives here.
  * Implements all screens per spec (Loading Screen, Gameplay, Completion Screen).
  */
 public class GameCLI implements BattleUI {
@@ -38,11 +38,11 @@ public class GameCLI implements BattleUI {
         println(THIN);
         println("  [1] Warrior");
         println("      HP: 260  |  Attack: 40  |  Defense: 20  |  Speed: 30");
-        println("      Special: Shield Bash — BasicAttack dmg + Stun (2 turns)");
+        println("      Special: Shield Bash - BasicAttack dmg + Stun (2 turns)");
         println();
         println("  [2] Wizard");
         println("      HP: 200  |  Attack: 50  |  Defense: 10  |  Speed: 20");
-        println("      Special: Arcane Blast — Damage ALL enemies, +10 ATK per kill");
+        println("      Special: Arcane Blast - Damage ALL enemies, +10 ATK per kill");
         println();
 
         // Enemies
@@ -55,9 +55,9 @@ public class GameCLI implements BattleUI {
         // Items
         println("  ITEMS  (choose 2; duplicates allowed; single-use)");
         println(THIN);
-        println("  [1] Potion      — Heal 100 HP");
-        println("  [2] Power Stone — Free special skill use (no cooldown change)");
-        println("  [3] Smoke Bomb  — Enemy attacks deal 0 damage this round + next");
+        println("  [1] Potion      - Heal 100 HP");
+        println("  [2] Power Stone - Free special skill use (no cooldown change)");
+        println("  [3] Smoke Bomb  - Enemy attacks deal 0 damage this round + next");
         println();
 
         // Difficulty
@@ -116,7 +116,7 @@ public class GameCLI implements BattleUI {
     public void onBattleStart(Player player, List<Combatant> enemies, Difficulty diff) {
         println();
         println(THICK);
-        println("  BATTLE START  —  " + diff.name());
+        println("  BATTLE START  -  " + diff.name());
         print("  Enemies: ");
         for (Combatant e : enemies) {
             print(e.getName() + "  ");
@@ -143,7 +143,7 @@ public class GameCLI implements BattleUI {
 
     @Override
     public void onSkipTurn(Combatant c) {
-        println("     " + c.getName() + " is STUNNED — turn skipped.");
+        println("     " + c.getName() + " is STUNNED - turn skipped.");
     }
 
     @Override
@@ -280,14 +280,14 @@ public class GameCLI implements BattleUI {
         idx++;
 
         for (Item item : player.getItems()) {
-            println("  [" + idx + "] Use " + item.getName() + "  — " + item.getDescription());
+            println("  [" + idx + "] Use " + item.getName() + "  - " + item.getDescription());
             menu.add(new ItemAction(item));
             idx++;
         }
 
         if (player.isSpecialReady()) {
             println("  [" + idx + "] " + player.getSpecialSkillName()
-                    + "  — " + player.getSpecialSkillDescription());
+                    + "  - " + player.getSpecialSkillDescription());
             menu.add(new SpecialSkillAction(player));
             idx++;
         } else {
