@@ -156,12 +156,12 @@ public class GameCLI implements BattleUI {
 
     @Override
     public void onActionChosen(Combatant actor, Action action) {
-        println("     " + actor.getName() + " → " + action.getName());
+        println("     " + actor.getName() + " --> " + action.getName());
     }
 
     @Override
     public void onEnemyAction(Enemy enemy, Combatant target) {
-        println("     " + enemy.getName() + " → Basic Attack → " + target.getName());
+        println("     " + enemy.getName() + " --> Basic Attack --> " + target.getName());
     }
 
     @Override
@@ -317,7 +317,7 @@ public class GameCLI implements BattleUI {
                 }
                 @Override
                 public String getName() {
-                    return base.getName() + " → " + tgt.getName();
+                    return base.getName() + " --> " + tgt.getName();
                 }
             };
         }
