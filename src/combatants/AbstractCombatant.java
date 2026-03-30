@@ -148,4 +148,8 @@ public abstract class AbstractCombatant implements Combatant {
         }
         return sb.toString();
     }
+
+    public List<StatusEffect> getEffects() {
+        return new ArrayList<>(statusEffects);
+    }
 }

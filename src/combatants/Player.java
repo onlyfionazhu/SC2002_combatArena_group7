@@ -1,7 +1,6 @@
 package combatants;
 
 import actions.ActionResult;
-import effects.StatusEffect;
 import items.Item;
 import java.util.ArrayList;
 import java.util.List;

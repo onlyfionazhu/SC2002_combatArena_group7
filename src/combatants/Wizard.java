@@ -19,7 +19,6 @@ public class Wizard extends Player {
         super("Wizard", 200, 50, 10, 20);
     }
 
-    @Override
     public ActionResult useSpecialSkill(List<Combatant> targets) {
         ActionResult result = new ActionResult();
         StringBuilder message = new StringBuilder(getName() + " unleashes Arcane Blast!\n");
