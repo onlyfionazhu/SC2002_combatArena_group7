@@ -6,92 +6,86 @@ import combatants.Wolf;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Level configuration (spec 3.5 + 3.6):
- *
- * EASY:   Initial: Goblin A, Goblin B, Goblin C     Backup: none
- * MEDIUM: Initial: Goblin A, Wolf A                 Backup: Wolf B, Wolf C
- * HARD:   Initial: Goblin A, Goblin B               Backup: Goblin C, Wolf A, Wolf B
- */
-public class Level {
+// LEVEL
 
+public class Level {
     private final Difficulty difficulty;
     private final List<Enemy> initialWave;
     private final List<Enemy> backupWave;
     private boolean backupSpawned = false;
 
-    public Level(Difficulty difficulty) {
-        this.difficulty = difficulty;
-        this.initialWave = buildInitial(difficulty);
-        this.backupWave = buildBackup(difficulty);
+    public Level(Difficulty d) {
+        this.difficulty = d;
+        this.initialWave = buildInitial(d);
+        this.backupWave = buildBackup(d);
     }
 
     private static List<Enemy> buildInitial(Difficulty d) {
-        List<Enemy> wave = new ArrayList<>();
+        List<Enemy> w = new ArrayList<>();
         switch (d) {
             case EASY:
-                wave.add(new Goblin("A"));
-                wave.add(new Goblin("B"));
-                wave.add(new Goblin("C"));
+                w.add(new Goblin("A")); 
+                w.add(new Goblin("B")); 
+                w.add(new Goblin("C"));
                 break;
             case MEDIUM:
-                wave.add(new Goblin("A"));
-                wave.add(new Wolf("A"));
+                w.add(new Goblin("A")); 
+                w.add(new Wolf("A"));
                 break;
             case HARD:
-                wave.add(new Goblin("A"));
-                wave.add(new Goblin("B"));
+                w.add(new Goblin("A")); 
+                w.add(new Goblin("B"));
                 break;
         }
-        return wave;
+        return w;
     }
 
     private static List<Enemy> buildBackup(Difficulty d) {
-        List<Enemy> wave = new ArrayList<>();
+        List<Enemy> w = new ArrayList<>();
         switch (d) {
             case EASY:
                 break;
             case MEDIUM:
-                wave.add(new Wolf("B"));
-                wave.add(new Wolf("C"));
+                w.add(new Wolf("B")); 
+                w.add(new Wolf("C")); 
                 break;
             case HARD:
-                wave.add(new Goblin("C"));
-                wave.add(new Wolf("A"));
-                wave.add(new Wolf("B"));
+                w.add(new Goblin("C")); 
+                w.add(new Wolf("A")); 
+                w.add(new Wolf("B")); 
                 break;
         }
-        return wave;
+        return w;
     }
 
-    public boolean hasBackup() {
-        return !backupWave.isEmpty() && !backupSpawned;
+    public boolean hasBackup() { 
+        return !backupWave.isEmpty() && !backupSpawned; 
+    }
+    public List<Enemy> getInitialWave() { 
+        return new ArrayList<>(initialWave); 
+    }
+    public Difficulty getDifficulty() { 
+        return difficulty; 
     }
 
-    public List<Enemy> getInitialWave() {
-        return new ArrayList<>(initialWave);
-    }
-
-    public Difficulty getDifficulty() {
-        return difficulty;
-    }
-
-    public List<Enemy> triggerBackup() {
+    public List<Enemy> triggerBackup() { //Returns backup enemies and permanently marks wave as spawned
         backupSpawned = true;
         return new ArrayList<>(backupWave);
     }
+        /* Backup spawn rule: 
+            Backup Spawns after the initial wave is completely defeated. 
+            All entities of a Backup Spawn enter simultaneously.
+            → Checked at START of each round before turn order is built.
+        */
 
-    public String getWaveDescription() {
+
+    public String waveDescription() { //For loading screen display.
         StringBuilder sb = new StringBuilder();
-        sb.append("Initial: ");
-        for (Enemy e : initialWave) {
-            sb.append(e.getName()).append("  ");
-        }
+        sb.append("Initial : ");
+        for (Enemy e : initialWave) sb.append(e.getName()).append("  ");
         if (!backupWave.isEmpty()) {
-            sb.append("\n    Backup: ");
-            for (Enemy e : backupWave) {
-                sb.append(e.getName()).append("  ");
-            }
+            sb.append("\n    Backup  : ");
+            for (Enemy e : backupWave) sb.append(e.getName()).append("  ");
         }
         return sb.toString();
     }
