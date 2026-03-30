@@ -5,15 +5,8 @@ import engine.Level;
 import ui.GameCLI;
 import ui.GameSession;
 
-/**
- * Entry point for the Turn-Based Combat Arena.
- *
- * Compilation (from src/ folder):
- *   Mac/Linux: find . -name "*.java" | xargs javac -d ../out
- *   Windows:   dir /s /B *.java > sources.txt && javac -d ../out @sources.txt
- *
- * Execution: java -cp ../out Main
- */
+//Entry point for the Turn-Based Combat Arena.
+
 public class Main {
     public static void main(String[] args) {
         GameCLI cli = new GameCLI();
