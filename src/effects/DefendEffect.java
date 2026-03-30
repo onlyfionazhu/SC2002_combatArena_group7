@@ -25,7 +25,10 @@ public class DefendEffect implements StatusEffect {
     }
 
     public void onTurnStart(Combatant target) {
-        // Defend ticks at start of the defender's turn
+        // Do nothing — defend ticks only at turn end to avoid double-decrement
+    }
+
+    public void onTurnEnd(Combatant target) {
         if (!applied) return;
 
         turnsRemaining--;
@@ -33,10 +36,6 @@ public class DefendEffect implements StatusEffect {
             target.modifyDefense(-DEFENSE_BONUS);
             applied = false;
         }
-    }
-
-    public void onTurnEnd(Combatant target) {
-        turnsRemaining--;
     }
 
     public void onExpire(Combatant target) {
