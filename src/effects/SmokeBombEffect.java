@@ -2,12 +2,6 @@ package effects;
 
 import combatants.Combatant;
 
-/**
- * SMOKE BOMB (spec 3.3 + 3.4):
- * - Enemy attacks deal 0 damage in the current turn and the next turn
- * - Duration: 2 rounds (counted at round end)
- */
-
 public class SmokeBombEffect implements StatusEffect {
     private int turnsRemaining = 2;
     private boolean applied = false;

@@ -4,14 +4,6 @@ import actions.ActionResult;
 import effects.StunEffect;
 import java.util.List;
 
-/**
- * Warrior:
- * - HP: 260, Attack: 40, Defense: 20, Speed: 30
- * - Special Skill: Shield Bash
- *   Effect: Deal BasicAttack damage to selected enemy.
- *           Selected enemy is unable to take actions for the current turn and the next turn.
- */
-
 public class Warrior extends Player {
     public Warrior() {
         super("Warrior", 260, 40, 20, 30);

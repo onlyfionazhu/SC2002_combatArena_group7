@@ -13,13 +13,11 @@ public abstract class Player extends AbstractCombatant {
         super(name, maxHp, attack, defense, speed);
     }
 
-    // Inventory management
     public void addItem(Item item) { items.add(item); }
     public void removeItem(Item item) { items.remove(item); }
     public List<Item> getItems() { return new ArrayList<>(items); }
     public boolean hasItems() { return !items.isEmpty(); }
 
-    // Special skill cooldown
     public boolean isSpecialReady() { return specialCooldown == 0; }
     public int getSpecialCooldown() { return specialCooldown; }
     public void setSpecialCooldown(int cooldown) { this.specialCooldown = cooldown; }
@@ -27,7 +25,6 @@ public abstract class Player extends AbstractCombatant {
         if (specialCooldown > 0) specialCooldown--;
     }
 
-    // Abstract methods for special skills
     public abstract ActionResult useSpecialSkill(List<Combatant> targets);
     public abstract String getSpecialSkillName();
     public abstract String getSpecialSkillDescription();

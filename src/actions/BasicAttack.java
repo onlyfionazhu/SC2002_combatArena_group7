@@ -3,15 +3,8 @@ package actions;
 import combatants.Combatant;
 import java.util.List;
 
-/**
- * Basic Attack (spec 3.2):
- * - Performs an attack on a target selected by the user
- * - Damage = max(0, Attacker Attack - Target Defense)
- * - Minimum HP post-damage is 0
- */
 public class BasicAttack implements Action {
 
-    @Override
     public ActionResult execute(Combatant user, List<Combatant> targets) {
         ActionResult result = new ActionResult();
 
@@ -32,6 +25,5 @@ public class BasicAttack implements Action {
         return result;
     }
 
-    @Override
     public String getName() { return "Basic Attack"; }
 }

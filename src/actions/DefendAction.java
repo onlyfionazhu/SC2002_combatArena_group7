@@ -4,13 +4,8 @@ import combatants.Combatant;
 import effects.DefendEffect;
 import java.util.List;
 
-/**
- * Defend (spec 3.2):
- * - Increases defense by 10 for the current round and the next round
- */
 public class DefendAction implements Action {
 
-    @Override
     public ActionResult execute(Combatant user, List<Combatant> targets) {
         user.addEffect(new DefendEffect());
 
@@ -19,6 +14,5 @@ public class DefendAction implements Action {
         return result;
     }
 
-    @Override
     public String getName() { return "Defend"; }
 }

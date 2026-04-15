@@ -10,10 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-/**
- * GameCLI - sole boundary class. All System.in/out lives here.
- * Implements all screens per spec (Loading Screen, Gameplay, Completion Screen).
- */
+
 public class GameCLI implements BattleUI {
 
     private static final String THICK = "═".repeat(60);
@@ -22,15 +19,12 @@ public class GameCLI implements BattleUI {
     private final Scanner sc = new Scanner(System.in);
     private String lastActionResult = "";
 
-    // ════════════════════════════════════════════════════════════
-    // LOADING SCREEN
-    // ════════════════════════════════════════════════════════════
 
     public GameSession showLoadingScreen() {
         cls();
-        println(THICK);
+        println();
+        println();
         println("    TURN-BASED COMBAT ARENA   ·   SC2002");
-        println(THICK);
         println();
 
         // Players
@@ -108,11 +102,7 @@ public class GameCLI implements BattleUI {
                 prev.difficulty, player, items);
     }
 
-    // ════════════════════════════════════════════════════════════
-    // BATTLE UI IMPLEMENTATION
-    // ════════════════════════════════════════════════════════════
 
-    @Override
     public void onBattleStart(Player player, List<Combatant> enemies, Difficulty diff) {
         println();
         println(THICK);
@@ -126,27 +116,39 @@ public class GameCLI implements BattleUI {
         println(THICK);
     }
 
-    @Override
+    private static final int BOX_WIDTH = 60;
+
     public void onRoundStart(int round) {
+        String title = " ROUND " + round + " ";
+        int innerWidth = BOX_WIDTH - 2;
+        int left = (innerWidth - title.length()) / 2;
+        int right = innerWidth - title.length() - left;
+
         println();
-        println("  ┌── ROUND " + round + " " + "─".repeat(48 - String.valueOf(round).length()) + "┐");
+        println("┌" + "─".repeat(left) + title + "─".repeat(right) + "┐");
     }
 
-    @Override
     public void onStatusDisplay(List<Combatant> all) {
+        int contentWidth = BOX_WIDTH - 4;
         for (Combatant c : all) {
-            String prefix = c.isAlive() ? "  │" : "  │  [✗]";
-            println(prefix + c.getStatusLine());
+            String text = c.getStatusLine();
+            String padded = padRight(text, contentWidth);
+            println("│ " + padded + " │");
         }
-        println("  └" + "─".repeat(55) + "┘");
+        println("└" + "─".repeat(BOX_WIDTH - 2) + "┘");
     }
 
-    @Override
+    private String padRight(String s, int width) {
+        if (s.length() >= width) {
+            return s.substring(0, width);
+        }
+        return s + " ".repeat(width - s.length());
+    }
+
     public void onSkipTurn(Combatant c) {
         println("     " + c.getName() + " is STUNNED - turn skipped.");
     }
 
-    @Override
     public void onActionResult(ActionResult result) {
         if (result.getMessage() != null && !result.getMessage().isEmpty()) {
             println("     " + result.getMessage());
@@ -154,17 +156,14 @@ public class GameCLI implements BattleUI {
         lastActionResult = result.getMessage();
     }
 
-    @Override
     public void onActionChosen(Combatant actor, Action action) {
         println("     " + actor.getName() + " --> " + action.getName());
     }
 
-    @Override
     public void onEnemyAction(Enemy enemy, Combatant target) {
         println("     " + enemy.getName() + " --> Basic Attack --> " + target.getName());
     }
 
-    @Override
     public void onPostAction(List<Combatant> all) {
         for (Combatant c : all) {
             if (!c.isAlive()) {
@@ -183,7 +182,6 @@ public class GameCLI implements BattleUI {
         }
     }
 
-    @Override
     public void onRoundEnd(int round, List<Combatant> all, Player player) {
         println();
         println("  End of Round " + round + ":");
@@ -212,7 +210,6 @@ public class GameCLI implements BattleUI {
         }
     }
 
-    @Override
     public void onBackupSpawn(List<Enemy> backup) {
         println();
         println("  !! BACKUP SPAWN !!");
@@ -223,7 +220,6 @@ public class GameCLI implements BattleUI {
         println();
     }
 
-    @Override
     public void onVictory(int rounds, Player player) {
         println();
         println(THICK);
@@ -246,7 +242,6 @@ public class GameCLI implements BattleUI {
         println(THICK);
     }
 
-    @Override
     public void onDefeat(int rounds, int enemiesLeft) {
         println();
         println(THICK);
@@ -260,7 +255,6 @@ public class GameCLI implements BattleUI {
         println(THICK);
     }
 
-    @Override
     public Action promptAction(Player player, List<Combatant> enemies) {
         println();
         println("  YOUR TURN  ──  " + player.getName()
@@ -299,7 +293,6 @@ public class GameCLI implements BattleUI {
         int choice = promptInt("  Choose action [1-" + (idx - 1) + "]: ", 1, idx - 1);
         Action chosen = menu.get(choice - 1);
 
-        // Target selection for single-target actions
         boolean needsTarget = (chosen instanceof BasicAttack) ||
                 (chosen instanceof SpecialSkillAction && player instanceof Warrior) ||
                 (chosen instanceof ItemAction && ((ItemAction) chosen).getItem() instanceof PowerStone && player instanceof Warrior);
@@ -309,13 +302,11 @@ public class GameCLI implements BattleUI {
             final Action base = chosen;
             final Combatant tgt = target;
             return new Action() {
-                @Override
                 public ActionResult execute(Combatant user, List<Combatant> targets) {
                     List<Combatant> single = new ArrayList<>();
                     single.add(tgt);
                     return base.execute(user, single);
                 }
-                @Override
                 public String getName() {
                     return base.getName() + " --> " + tgt.getName();
                 }
@@ -325,7 +316,6 @@ public class GameCLI implements BattleUI {
         return chosen;
     }
 
-    @Override
     public int promptPostGame() {
         println();
         println("  [1] Replay with same settings");
@@ -338,10 +328,6 @@ public class GameCLI implements BattleUI {
         }
         return choice;
     }
-
-    // ════════════════════════════════════════════════════════════
-    // UTILITIES
-    // ════════════════════════════════════════════════════════════
 
     private Player buildPlayer(int choice) {
         return choice == 1 ? new Warrior() : new Wizard();

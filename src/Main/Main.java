@@ -5,8 +5,6 @@ import engine.Level;
 import ui.GameCLI;
 import ui.GameSession;
 
-//Entry point for the Turn-Based Combat Arena.
-
 public class Main {
     public static void main(String[] args) {
         GameCLI cli = new GameCLI();

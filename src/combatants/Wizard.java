@@ -4,15 +4,6 @@ import actions.ActionResult;
 import effects.ArcaneBlastEffect;
 import java.util.List;
 
-/**
- * Wizard:
- * - HP: 200, Attack: 50, Defense: 10, Speed: 20
- * - Special Skill: Arcane Blast
- *   Effect: Deal BasicAttack damage to all enemies currently in combat.
- *           Each enemy defeated by Arcane Blast adds 10 to Wizard's Attack,
- *           lasting until end of the level.
- */
-
 public class Wizard extends Player {
 
     public Wizard() {
@@ -41,7 +32,6 @@ public class Wizard extends Player {
 
             if (hpBefore > 0 && !target.isAlive()) {
                 kills++;
-                // Each kill immediately grants +10 ATK
                 this.addEffect(new ArcaneBlastEffect(1));
                 message.append("    ").append(target.getName()).append(" eliminated! Attack +10.\n");
             }
@@ -52,7 +42,7 @@ public class Wizard extends Player {
         }
 
         result.setMessage(message.toString());
-        result.setDamageDealt(0); // Multiple targets, not a single number
+        result.setDamageDealt(0);
         return result;
     }
 

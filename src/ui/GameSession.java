@@ -5,13 +5,9 @@ import engine.Difficulty;
 import items.Item;
 import java.util.List;
 
-/**
- * Holds setup choices for one game session.
- * Used for replay functionality.
- */
 public class GameSession {
-    public final int playerChoice;   // 1=Warrior, 2=Wizard
-    public final int item1Choice;    // 1=Potion, 2=PowerStone, 3=SmokeBomb
+    public final int playerChoice;
+    public final int item1Choice;
     public final int item2Choice;
     public final Difficulty difficulty;
     public final Player player;

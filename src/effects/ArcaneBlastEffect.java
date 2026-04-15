@@ -2,12 +2,6 @@ package effects;
 
 import combatants.Combatant;
 
-/**
- * ARCANE BLAST BUFF:
- * - Each enemy defeated by Arcane Blast adds 10 to Wizard's Attack
- * - Lasts until end of level (never expires)
- */
-
 public class ArcaneBlastEffect implements StatusEffect {
     private static final int PER_KILL = 10;
     private final int kills;
@@ -38,6 +32,6 @@ public class ArcaneBlastEffect implements StatusEffect {
     }
 
     public boolean isExpired() {
-        return false; // Lasts until end of level
+        return false;
     }
 }

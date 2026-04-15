@@ -8,11 +8,6 @@ import combatants.Player;
 import engine.Difficulty;
 import java.util.List;
 
-/**
- * BattleUI — I/O contract between BattleEngine and presentation layer.
- * SRP: BattleEngine never touches System.in/out.
- * DIP: BattleEngine depends on this abstraction, not GameCLI directly.
- */
 public interface BattleUI {
     void onBattleStart(Player player, List<Combatant> enemies, Difficulty diff);
     void onRoundStart(int round);

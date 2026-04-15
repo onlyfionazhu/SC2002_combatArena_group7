@@ -6,10 +6,6 @@ import combatants.Warrior;
 import combatants.Wizard;
 import java.util.List;
 
-/**
- * Simple wrapper that calls the player's existing useSpecialSkill method.
- * OCP: New player classes can be added by extending this wrapper logic.
- */
 public class SpecialSkillAction implements Action {
     private final Player player;
 

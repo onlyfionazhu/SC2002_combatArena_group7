@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import ui.BattleUI;
 
-// BATTLE ENGINE - MAIN GAME LOOP
 public class BattleEngine {
 
     private final Player player;
@@ -32,7 +31,6 @@ public class BattleEngine {
     }
 
 
-    // PUBLIC
     public void run() {
         ui.onBattleStart(player, getAliveEnemies(), level.getDifficulty());
         while (!over) {
@@ -51,61 +49,49 @@ public class BattleEngine {
     }
 
 
-    // ROUND
     private void runRound() {
         ui.onRoundStart(round);
 
-        //1. Backup spawn check
         checkBackup(); 
 
-        //2. Status display
         ui.onStatusDisplay(combatants); 
 
-        //3. Turn order
         List<Combatant> order = turnOrder.getOrder(combatants); 
 
         
         for (Combatant current : order) { 
 
-            //4a. Could have been killed earlier this round
             if (!current.isAlive()) continue;
             if (over) break;
 
-            //4b. Tick turn-based effects (Stun, Defend) at start of this combatant's turn
             current.tickTurnEffects();
 
             if (!current.isAlive()) continue;
 
-            //4c. Check stun after ticking (stun may expire this turn)
             if (current.isStunned()) {
                 ui.onSkipTurn(current);
                 continue;
             }
 
-            //4d. Execute turn
             if (current instanceof Player) {
                 doPlayerTurn((Player) current);
             } else if (current instanceof Enemy) {
                 doEnemyTurn((Enemy) current);
             }
 
-            //4e. Check end condition
             if (checkEnd()) break;
         }
 
-        //5. Tick round-end effects on all living combatants (SmokeBomb, etc.)
         for (Combatant c : combatants) {
             if (c.isAlive()) c.tickRoundEndEffects();
         }
 
-        //6. End-of-round summary
         if (!over) { 
             ui.onRoundEnd(round, combatants, player);
         }
     }
 
 
-    // HANDLING TURNS
     private void doPlayerTurn(Player player) {
         player.decrementCooldown();
 
@@ -129,7 +115,6 @@ public class BattleEngine {
     }
 
 
-    // BACKUP SPAWN
     private void checkBackup() {
         if (!level.hasBackup()) return;
 
@@ -145,7 +130,6 @@ public class BattleEngine {
     }
 
 
-    // END CONDITION
     private boolean checkEnd() {
         if (!player.isAlive()) {
             over = true;
@@ -169,7 +153,6 @@ public class BattleEngine {
     }
 
 
-    // HELPERS
     private List<Combatant> getAliveEnemies() {
         List<Combatant> list = new ArrayList<>();
         for (Combatant c : combatants) {
@@ -187,9 +170,3 @@ public class BattleEngine {
     }
 }
 
-
-/* DESIGN PRINCIPLES:
- - DIP: depends on TurnOrderStrategy, Action (interface), BattleUI abstractions, never concrete subtypes.
- - SRP: BattleEngine never does I/O and delegates entirely to BattleUI.
- - OCP: New actions/items added without modifying this class.
- */

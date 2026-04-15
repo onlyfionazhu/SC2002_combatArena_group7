@@ -2,12 +2,6 @@ package effects;
 
 import combatants.Combatant;
 
-/**
- * DEFEND:
- * - Increases defense by 10 for the current round and the next round
- * - Duration: 2 turns
- */
-
 public class DefendEffect implements StatusEffect {
     private static final int DEFENSE_BONUS = 10;
     private int turnsRemaining = 2;
@@ -25,7 +19,6 @@ public class DefendEffect implements StatusEffect {
     }
 
     public void onTurnStart(Combatant target) {
-        // Do nothing — defend ticks only at turn end to avoid double-decrement
     }
 
     public void onTurnEnd(Combatant target) {

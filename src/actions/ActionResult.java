@@ -4,11 +4,6 @@ import effects.StatusEffect;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Encapsulates the result of an action execution.
- * Allows the battle engine to know what happened without
- * parsing internal state changes.
- */
 public class ActionResult {
     private int damageDealt = 0;
     private boolean stunned = false;

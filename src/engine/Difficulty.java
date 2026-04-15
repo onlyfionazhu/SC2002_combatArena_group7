@@ -1,7 +1,5 @@
 package engine;
 
-// DIFFICULTY LEVEL
-
 
 public enum Difficulty {
     EASY, MEDIUM, HARD;
