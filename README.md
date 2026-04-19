@@ -1,6 +1,8 @@
 # SC2002_combatArena_group7
 
-**Course:** SC2002 | **Tutorial Group:** FDAA | **Group:** 7
+**Course:** SC2002 Object-Oriented Design and Programming
+**Tutorial Group:** FDAA 
+**Group:** 7
 
 **Members:** Zhu Feiyang, Yan Linyan, Phan Thao Van
 
